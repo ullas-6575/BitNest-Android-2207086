@@ -7,7 +7,7 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Available Rooms"
+        android:text="Select a Room"
         android:padding="16dp"
         android:textSize="22sp"
         android:textStyle="bold"
@@ -16,6 +16,18 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:padding="8dp"/>
+
+    <Button
+        android:id="@+id/btnConfirmBooking"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:text="Confirm Booking"
+        android:textSize="18sp"
+        android:backgroundTint="#009688"
+        android:textColor="#FFFFFF"
+        android:layout_margin="16dp"/>
+
 </LinearLayout>

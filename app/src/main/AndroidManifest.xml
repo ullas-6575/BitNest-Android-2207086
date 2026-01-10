@@ -27,7 +27,8 @@
         <activity android:name=".AdminDashboard" />
         <activity android:name=".AddRoom" />
         <activity android:name=".AvailableRoomsActivity" />
-
+        <activity android:name=".ConfirmBookingActivity" />
+        <activity android:name=".PaymentActivity" />
 
     </application>
 

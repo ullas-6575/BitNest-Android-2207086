@@ -22,9 +22,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".UserLogin" />
-<!--        <activity android:name=".UserDashboard" />-->
+        <activity android:name=".UserDashboard" />
         <activity android:name=".AdminLogin" />
-<!--        <activity android:name=".AdminDashboard" />-->
+        <activity android:name=".AdminDashboard" />
+        <activity android:name=".AddRoom" />
+        <activity android:name=".AvailableRoomsActivity" />
+
 
     </application>
 

@@ -44,8 +44,8 @@ public class PaymentActivity extends AppCompatActivity {
 
         initializeViews();
 
-        double estimatedTotal = selectedRoomIds.size() * 100.00;
-        tvTotalBill.setText("$" + estimatedTotal);
+        double estimatedTotal = selectedRoomIds.size() * 500.00;
+        tvTotalBill.setText("tk " + estimatedTotal);
 
         btnFinalizePayment.setOnClickListener(v -> handlePayment());
     }

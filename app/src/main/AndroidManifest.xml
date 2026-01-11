@@ -29,6 +29,7 @@
         <activity android:name=".AvailableRoomsActivity" />
         <activity android:name=".ConfirmBookingActivity" />
         <activity android:name=".PaymentActivity" />
+        <activity android:name=".CheckoutActivity" />
 
     </application>
 

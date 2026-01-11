@@ -52,7 +52,7 @@ public class AdminLogin extends AppCompatActivity {
         lblError.setText("");
 
 
-        if ("ullas@gmail.com".equals(username) && "12345686".equals(password)) {
+        if ("ullas".equals(username) && "86".equals(password)) {
             lblError.setTextColor(Color.GREEN);
             lblError.setText("Login Successful!");
 

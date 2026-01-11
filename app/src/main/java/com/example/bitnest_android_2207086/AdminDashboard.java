@@ -50,8 +50,8 @@ public class AdminDashboard extends AppCompatActivity {
 
         btnCheckout.setOnClickListener(v -> {
             Toast.makeText(this, "Proceeding to Checkout...", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(AdminDashboard.this, CheckoutActivity.class);
-            // startActivity(intent);
+             Intent intent = new Intent(AdminDashboard.this, CheckoutActivity.class);
+             startActivity(intent);
         });
         btnSearch.setOnClickListener(v -> {
             String input = searchInput.getText().toString();

@@ -30,6 +30,7 @@
         <activity android:name=".ConfirmBookingActivity" />
         <activity android:name=".PaymentActivity" />
         <activity android:name=".CheckoutActivity" />
+        <activity android:name=".ViewGuestsActivity" />
 
     </application>
 

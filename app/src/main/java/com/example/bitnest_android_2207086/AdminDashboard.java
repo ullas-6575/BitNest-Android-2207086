@@ -37,9 +37,8 @@ public class AdminDashboard extends AppCompatActivity {
     private void setupListeners() {
 
         btnSeeGuests.setOnClickListener(v -> {
-            Toast.makeText(this, "Loading Guest List...", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(AdminDashboard.this, GuestListActivity.class);
-            // startActivity(intent);
+            Intent intent = new Intent(AdminDashboard.this, ViewGuestsActivity.class);
+            startActivity(intent);
         });
 
         btnModify.setOnClickListener(v -> {

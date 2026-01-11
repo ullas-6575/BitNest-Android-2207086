@@ -41,6 +41,7 @@ public class ViewGuestAdapter extends RecyclerView.Adapter<ViewGuestAdapter.View
         holder.dates.setText("Check-in: " + guest.get("checkIn") + "\nCheck-out: " + guest.get("checkOut"));
 
 
+
         ArrayList<String> roomIds = (ArrayList<String>) guest.get("bookedRooms");
         StringBuilder roomNumbers = new StringBuilder();
 

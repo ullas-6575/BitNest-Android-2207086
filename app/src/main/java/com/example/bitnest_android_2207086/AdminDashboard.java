@@ -42,9 +42,8 @@ public class AdminDashboard extends AppCompatActivity {
         });
 
         btnModify.setOnClickListener(v -> {
-            Toast.makeText(this, "Opening Modify Screen...", Toast.LENGTH_SHORT).show();
-            // Intent intent = new Intent(AdminDashboard.this, ModifyActivity.class);
-            // startActivity(intent);
+             Intent intent = new Intent(AdminDashboard.this, ModifyBookingActivity.class);
+             startActivity(intent);
         });
 
         btnCheckout.setOnClickListener(v -> {

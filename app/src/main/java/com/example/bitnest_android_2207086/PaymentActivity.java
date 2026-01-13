@@ -90,7 +90,7 @@ public class PaymentActivity extends AppCompatActivity {
         long days = calculateDays(checkIn, checkOut);
         if (days <= 0) days = 1;
         finalTotalAmount = days * pricePerNightTotal;
-        tvTotalBill.setText("$ " + String.format(Locale.US, "%.2f", finalTotalAmount));
+        tvTotalBill.setText("tk " + String.format(Locale.US, "%.2f", finalTotalAmount));
     }
 
     private long calculateDays(String start, String end) {

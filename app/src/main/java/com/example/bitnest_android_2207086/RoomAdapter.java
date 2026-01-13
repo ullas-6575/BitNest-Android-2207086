@@ -45,7 +45,7 @@ public class RoomAdapter extends RecyclerView.Adapter<RoomAdapter.RoomViewHolder
 
         holder.roomNumber.setText("Room " + room.roomNumber);
         holder.type.setText(room.type);
-        holder.price.setText("$" + room.price);
+        holder.price.setText("tk " + room.price);
 
         if (room.isAvailable) {
             holder.status.setText("Available");

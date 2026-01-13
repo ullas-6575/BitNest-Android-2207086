@@ -8,7 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class AdminDashboard extends AppCompatActivity {
 
-    private Button btnSeeGuests, btnModify, btnCheckout, btnSearch, btnBack, btnAddRoom;
+    private Button btnSeeGuests, btnModify, btnCheckout, btnSearch, btnlogout, btnAddRoom;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +25,7 @@ public class AdminDashboard extends AppCompatActivity {
         btnCheckout = findViewById(R.id.btnCheckout);
         btnSearch = findViewById(R.id.btnSearch);
         btnAddRoom = findViewById(R.id.btnAddRoom);
+        btnlogout = findViewById(R.id.btnLogout);
     }
 
     private void setupListeners() {
@@ -52,6 +53,11 @@ public class AdminDashboard extends AppCompatActivity {
 
         btnAddRoom.setOnClickListener(v -> {
             handleAddRoom();
+        });
+        btnlogout.setOnClickListener(v -> {
+            Intent intent = new Intent(AdminDashboard.this, MainActivity.class);
+            startActivity(intent);
+            finish();
         });
 
     }

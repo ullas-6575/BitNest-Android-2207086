@@ -10,55 +10,33 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Map;
 
-public class ViewGuestAdapter extends RecyclerView.Adapter<ViewGuestAdapter.ViewHolder> {
+public class ViewGuestAdapter extends RecyclerView.Adapter<ViewGuestAdapter.GuestViewHolder> {
 
     Context context;
-    ArrayList<Map<String, Object>> list;
-    HashMap<String, String> roomMap;
+    ArrayList<Map<String, String>> list;
 
-    public ViewGuestAdapter(Context context, ArrayList<Map<String, Object>> list, HashMap<String, String> roomMap) {
+    public ViewGuestAdapter(Context context, ArrayList<Map<String, String>> list) {
         this.context = context;
         this.list = list;
-        this.roomMap = roomMap;
     }
 
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(context).inflate(R.layout.item_guest_view, parent, false);
-        return new ViewHolder(v);
+    public GuestViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(context).inflate(R.layout.item_admin_guest, parent, false);
+        return new GuestViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
-        Map<String, Object> guest = list.get(position);
+    public void onBindViewHolder(@NonNull GuestViewHolder holder, int position) {
+        Map<String, String> currentItem = list.get(position);
 
-        holder.name.setText((String) guest.get("name"));
-        holder.phone.setText("Phone: " + guest.get("phone"));
-        holder.dates.setText("Check-in: " + guest.get("checkIn") + "\nCheck-out: " + guest.get("checkOut"));
-
-
-
-        ArrayList<String> roomIds = (ArrayList<String>) guest.get("bookedRooms");
-        StringBuilder roomNumbers = new StringBuilder();
-
-        if (roomIds != null) {
-            for (String id : roomIds) {
-                if (roomMap.containsKey(id)) {
-                    if (roomNumbers.length() > 0) roomNumbers.append(", ");
-                    roomNumbers.append(roomMap.get(id));
-                }
-            }
-        }
-
-        if (roomNumbers.length() > 0) {
-            holder.roomHeader.setText("Room " + roomNumbers.toString());
-        } else {
-            holder.roomHeader.setText("No Room Assigned");
-        }
+        holder.tvRoom.setText("Room: " + currentItem.get("roomNum"));
+        holder.tvName.setText(currentItem.get("name"));
+        holder.tvPhone.setText(currentItem.get("phone"));
+        holder.tvDates.setText("From: " + currentItem.get("checkIn") + "  To: " + currentItem.get("checkOut"));
     }
 
     @Override
@@ -66,15 +44,15 @@ public class ViewGuestAdapter extends RecyclerView.Adapter<ViewGuestAdapter.View
         return list.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView roomHeader, name, phone, dates;
+    public static class GuestViewHolder extends RecyclerView.ViewHolder {
+        TextView tvName, tvRoom, tvPhone, tvDates;
 
-        public ViewHolder(@NonNull View itemView) {
+        public GuestViewHolder(@NonNull View itemView) {
             super(itemView);
-            roomHeader = itemView.findViewById(R.id.tvRoomHeader);
-            name = itemView.findViewById(R.id.tvGuestName);
-            phone = itemView.findViewById(R.id.tvPhone);
-            dates = itemView.findViewById(R.id.tvCheckDates);
+            tvName = itemView.findViewById(R.id.tvGuestName);
+            tvRoom = itemView.findViewById(R.id.tvRoomNum);
+            tvPhone = itemView.findViewById(R.id.tvPhone);
+            tvDates = itemView.findViewById(R.id.tvDates);
         }
     }
 }

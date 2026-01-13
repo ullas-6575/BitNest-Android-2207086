@@ -15,6 +15,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -23,7 +25,7 @@ public class ViewGuestsActivity extends AppCompatActivity {
     RecyclerView recyclerView;
     DatabaseReference database;
     ViewGuestAdapter adapter;
-    ArrayList<Map<String, Object>> guestList;
+    ArrayList<Map<String, String>> flattenedList;
     HashMap<String, String> roomMap;
 
     @Override
@@ -36,10 +38,10 @@ public class ViewGuestsActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        guestList = new ArrayList<>();
+        flattenedList = new ArrayList<>();
         roomMap = new HashMap<>();
 
-        adapter = new ViewGuestAdapter(this, guestList, roomMap);
+        adapter = new ViewGuestAdapter(this, flattenedList);
         recyclerView.setAdapter(adapter);
 
         loadRoomsAndGuests();
@@ -69,13 +71,59 @@ public class ViewGuestsActivity extends AppCompatActivity {
         database.child("guests").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                guestList.clear();
-                for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
-                    Map<String, Object> guest = (Map<String, Object>) dataSnapshot.getValue();
-                    if (guest != null) {
-                        guestList.add(guest);
+                flattenedList.clear();
+
+                for (DataSnapshot guestSnap : snapshot.getChildren()) {
+                    String guestId = guestSnap.getKey();
+                    String name = guestSnap.child("name").getValue(String.class);
+                    String phone = guestSnap.child("phone").getValue(String.class);
+                    String checkIn = guestSnap.child("checkIn").getValue(String.class);
+                    String checkOut = guestSnap.child("checkOut").getValue(String.class);
+
+                    ArrayList<String> bookedRooms = new ArrayList<>();
+                    if (guestSnap.hasChild("bookedRooms")) {
+                        for (DataSnapshot roomSnap : guestSnap.child("bookedRooms").getChildren()) {
+                            bookedRooms.add(roomSnap.getValue(String.class));
+                        }
+                    }
+
+                    for (String rId : bookedRooms) {
+                        Map<String, String> entry = new HashMap<>();
+                        entry.put("guestId", guestId);
+                        entry.put("name", name);
+                        entry.put("phone", phone);
+                        entry.put("checkIn", checkIn);
+                        entry.put("checkOut", checkOut);
+
+                        String rNum = roomMap.get(rId);
+                        entry.put("roomNum", rNum != null ? rNum : "Unknown");
+
+                        flattenedList.add(entry);
                     }
                 }
+
+                Collections.sort(flattenedList, new Comparator<Map<String, String>>() {
+                    @Override
+                    public int compare(Map<String, String> o1, Map<String, String> o2) {
+                        String id1 = o1.get("guestId");
+                        String id2 = o2.get("guestId");
+
+
+                        int idCompare = id1.compareTo(id2);
+                        if (idCompare != 0) {
+                            return idCompare;
+                        }
+
+
+                        String r1 = o1.get("roomNum");
+                        String r2 = o2.get("roomNum");
+                        if (r1 == null) return -1;
+                        if (r2 == null) return 1;
+                        return r1.compareTo(r2);
+                    }
+                });
+
+
                 adapter.notifyDataSetChanged();
             }
 

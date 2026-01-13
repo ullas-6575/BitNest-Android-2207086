@@ -30,7 +30,7 @@ public class UserDashboard extends AppCompatActivity {
         });
 
         btnLogout.setOnClickListener(v -> {
-            Intent intent = new Intent(UserDashboard.this, MainActivity.class); // Or LoginActivity
+            Intent intent = new Intent(UserDashboard.this, MainActivity.class);
             startActivity(intent);
             finish();
         });

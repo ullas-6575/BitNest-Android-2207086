@@ -32,6 +32,8 @@
         <activity android:name=".CheckoutActivity" />
         <activity android:name=".ViewGuestsActivity" />
         <activity android:name=".ModifyBookingActivity" />
+        <activity android:name=".SearchGuestActivity" />
+        <activity android:name=".MyBookingActivity" />
 
     </application>
 

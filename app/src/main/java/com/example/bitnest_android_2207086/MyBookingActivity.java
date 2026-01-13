@@ -8,7 +8,8 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -20,24 +21,29 @@ import java.util.ArrayList;
 
 public class MyBookingActivity extends AppCompatActivity {
 
-    TextView tvGuestName, tvGuestPhone, tvRoomNumber, tvDates, tvNoBooking;
-    CardView cardBooking;
+    RecyclerView recyclerViewBookings;
+    TextView tvNoBooking;
     DatabaseReference database;
     String currentUsername;
+    ArrayList<Booking> list;
+    BookingAdapter adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_my_booking);
 
-        tvGuestName = findViewById(R.id.tvGuestName);
-        tvGuestPhone = findViewById(R.id.tvGuestPhone);
-        tvRoomNumber = findViewById(R.id.tvRoomNumber);
-        tvDates = findViewById(R.id.tvDates);
+        recyclerViewBookings = findViewById(R.id.recyclerViewBookings);
         tvNoBooking = findViewById(R.id.tvNoBooking);
-        cardBooking = findViewById(R.id.cardBooking);
 
         database = FirebaseDatabase.getInstance("https://bitnest-auth-default-rtdb.asia-southeast1.firebasedatabase.app").getReference();
+
+        recyclerViewBookings.setHasFixedSize(true);
+        recyclerViewBookings.setLayoutManager(new LinearLayoutManager(this));
+
+        list = new ArrayList<>();
+        adapter = new BookingAdapter(list);
+        recyclerViewBookings.setAdapter(adapter);
 
         SharedPreferences prefs = getSharedPreferences("UserPrefs", MODE_PRIVATE);
         currentUsername = prefs.getString("username", "");
@@ -52,32 +58,37 @@ public class MyBookingActivity extends AppCompatActivity {
 
     private void findBooking() {
         database.child("guests").orderByChild("username").equalTo(currentUsername)
-                .addListenerForSingleValueEvent(new ValueEventListener() {
+                .addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        list.clear();
                         if (snapshot.exists()) {
                             for (DataSnapshot ds : snapshot.getChildren()) {
+                                // Extract data safely
                                 String name = ds.child("name").getValue(String.class);
                                 String phone = ds.child("phone").getValue(String.class);
                                 String checkIn = ds.child("checkIn").getValue(String.class);
                                 String checkOut = ds.child("checkOut").getValue(String.class);
+                                String guestId = ds.getKey();
 
-                                ArrayList<String> roomIds = (ArrayList<String>) ds.child("bookedRooms").getValue();
-
-                                tvGuestName.setText("Name: " + name);
-                                tvGuestPhone.setText("Phone: " + phone);
-                                tvDates.setText("In: " + checkIn + "  /  Out: " + checkOut);
-
-                                if (roomIds != null && !roomIds.isEmpty()) {
-                                    fetchRoomNumbers(roomIds);
-                                } else {
-                                    tvRoomNumber.setText("No Room Assigned");
-                                    cardBooking.setVisibility(View.VISIBLE);
+                                ArrayList<String> roomIds = new ArrayList<>();
+                                if (ds.hasChild("bookedRooms")) {
+                                    for (DataSnapshot roomSnap : ds.child("bookedRooms").getChildren()) {
+                                        roomIds.add(roomSnap.getValue(String.class));
+                                    }
                                 }
-                                return;
+
+                                Booking booking = new Booking(guestId, name, phone, checkIn, checkOut, roomIds);
+                                list.add(booking);
+                            }
+                            adapter.notifyDataSetChanged();
+
+                            if (list.isEmpty()) {
+                                tvNoBooking.setVisibility(View.VISIBLE);
+                            } else {
+                                tvNoBooking.setVisibility(View.GONE);
                             }
                         } else {
-                            cardBooking.setVisibility(View.GONE);
                             tvNoBooking.setVisibility(View.VISIBLE);
                         }
                     }
@@ -87,26 +98,5 @@ public class MyBookingActivity extends AppCompatActivity {
                         Toast.makeText(MyBookingActivity.this, "Error: " + error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
-    }
-
-    private void fetchRoomNumbers(ArrayList<String> roomIds) {
-        database.child("rooms").addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot snapshot) {
-                StringBuilder roomsStr = new StringBuilder();
-                for (String id : roomIds) {
-                    if (snapshot.hasChild(id)) {
-                        String num = snapshot.child(id).child("roomNumber").getValue(String.class);
-                        if (roomsStr.length() > 0) roomsStr.append(", ");
-                        roomsStr.append(num);
-                    }
-                }
-                tvRoomNumber.setText("Room: " + roomsStr.toString());
-                cardBooking.setVisibility(View.VISIBLE);
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError error) {}
-        });
     }
 }

@@ -108,8 +108,8 @@ public class PaymentActivity extends AppCompatActivity {
         String mm = etExpiryMonth.getText().toString();
         String yy = etExpiryYear.getText().toString();
 
-        if (TextUtils.isEmpty(cardNum) || cardNum.length() < 12) {
-            etCardNumber.setError("Invalid Card Number");
+        if (TextUtils.isEmpty(cardNum) || cardNum.length() < 4) {
+            etCardNumber.setError("Invalid Card Number must be at least 4 digits");
             return false;
         }
         if (TextUtils.isEmpty(mm) || TextUtils.isEmpty(yy)) {

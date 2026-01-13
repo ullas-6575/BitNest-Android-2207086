@@ -23,7 +23,7 @@ public class UserLogin extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.userlogin); // Ensure this matches your XML filename
+        setContentView(R.layout.userlogin);
 
         mAuth = FirebaseAuth.getInstance();
 
@@ -94,7 +94,6 @@ public class UserLogin extends AppCompatActivity {
     }
 
     private void navigateToDashboard() {
-        // Save Username for later use in Booking
         String email = txtEmail.getText().toString();
         String username = email.contains("@") ? email.split("@")[0] : email;
 

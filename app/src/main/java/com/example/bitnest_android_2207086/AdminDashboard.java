@@ -24,7 +24,6 @@ public class AdminDashboard extends AppCompatActivity {
         btnModify = findViewById(R.id.btnModify);
         btnCheckout = findViewById(R.id.btnCheckout);
         btnSearch = findViewById(R.id.btnSearch);
-        btnBack = findViewById(R.id.btnBack);
         btnAddRoom = findViewById(R.id.btnAddRoom);
     }
 
@@ -55,11 +54,6 @@ public class AdminDashboard extends AppCompatActivity {
             handleAddRoom();
         });
 
-        btnBack.setOnClickListener(v -> {
-            Intent intent = new Intent(AdminDashboard.this, AdminLogin.class);
-            startActivity(intent);
-            finish();
-        });
     }
 
     private void handleAddRoom() {

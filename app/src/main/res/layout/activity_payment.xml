@@ -40,7 +40,7 @@
                 android:id="@+id/tvTotalBill"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="$0.00"
+                android:text="0.00"
                 android:textSize="18sp"
                 android:textStyle="bold"
                 android:textColor="#000"/>
@@ -56,7 +56,7 @@
             android:id="@+id/etCardNumber"
             android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:hint="XXXX XXXX XXXX XXXX"
+            android:hint="XXXX XXXX XXXX"
             android:inputType="number"
             android:background="@android:drawable/edit_text"
             android:layout_marginBottom="16dp"/>
@@ -64,7 +64,8 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Expiry Date (MM/YY):"
+            android:text="Expiry Date :"
+            android:inputType="number"
             android:textSize="14sp"
             android:layout_marginBottom="4dp"/>
         <LinearLayout
@@ -91,12 +92,12 @@
 
             <EditText
                 android:id="@+id/etExpiryYear"
-                android:layout_width="60dp"
+                android:layout_width="102dp"
                 android:layout_height="50dp"
-                android:hint="YY"
-                android:inputType="number"
+                android:background="@android:drawable/edit_text"
                 android:gravity="center"
-                android:background="@android:drawable/edit_text"/>
+                android:hint="YYYY"
+                android:inputType="number" />
         </LinearLayout>
 
         <Button

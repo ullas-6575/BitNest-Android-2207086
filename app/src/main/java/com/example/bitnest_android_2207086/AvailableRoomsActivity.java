@@ -39,7 +39,6 @@ public class AvailableRoomsActivity extends AppCompatActivity implements RoomAda
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         list = new ArrayList<>();
-
         roomAdapter = new RoomAdapter(this, list, this);
         recyclerView.setAdapter(roomAdapter);
 
@@ -49,7 +48,9 @@ public class AvailableRoomsActivity extends AppCompatActivity implements RoomAda
                 list.clear();
                 for (DataSnapshot dataSnapshot : snapshot.getChildren()) {
                     Room room = dataSnapshot.getValue(Room.class);
-                    list.add(room);
+                    if (room != null) {
+                        list.add(room);
+                    }
                 }
                 roomAdapter.notifyDataSetChanged();
             }

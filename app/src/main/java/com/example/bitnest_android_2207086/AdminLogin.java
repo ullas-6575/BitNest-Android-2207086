@@ -26,20 +26,12 @@ public class AdminLogin extends AppCompatActivity {
         txtPassword = findViewById(R.id.txtPassword);
         lblError = findViewById(R.id.lblError);
         btnLogin = findViewById(R.id.btnLogin);
-        btnBack = findViewById(R.id.btnBack);
 
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 handleLoginAction();
-            }
-        });
-
-        btnBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                handleBackAction();
             }
         });
     }
@@ -52,7 +44,7 @@ public class AdminLogin extends AppCompatActivity {
         lblError.setText("");
 
 
-        if ("ullas".equals(username) && "86".equals(password)) {
+        if ("ullas".equals(username) && "6".equals(password)) {
             lblError.setTextColor(Color.GREEN);
             lblError.setText("Login Successful!");
 
@@ -65,11 +57,5 @@ public class AdminLogin extends AppCompatActivity {
             lblError.setTextColor(Color.parseColor("#e74c3c"));
             lblError.setText("Invalid Username or Password.");
         }
-    }
-
-    private void handleBackAction() {
-        Intent intent = new Intent(AdminLogin.this, MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }
